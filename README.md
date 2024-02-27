@@ -26,9 +26,9 @@ reference and data analysis.
             -  Use OAuth authentication to log into Google map
             -  Securely storeGoogleMap api keys in local files only without exposing them on github/the web
     -  Non-functional requirement 2: Repeatability
-            -  Functional requirement:
-                -  Previous searches and their results will be stored locally
-                -  Priority will be given to restaurants that have eaten at before
+        -  Functional requirement:
+            -  Previous searches and their results will be stored locally
+            -  Priority will be given to restaurants that have eaten at before
     -  Project Management
         -  Theme:  Delight the user by showing them appropriate recipes or restaurants.
         -  Epic:   Interactive Conversations
