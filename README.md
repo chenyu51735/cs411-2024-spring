@@ -38,7 +38,7 @@ suggestions.
             -  Ticket 1:  Implement ChatGPT API integration to enable real-time interactions.
             -  Ticket 2:  Design a user-friendly frontend interface allowing users to interact with the system
     -  User story 2:  Find restaurants that have this food nearby by selecting a specific food variety.
-          -  Task:  Access to the Google Maps API and localization of the user's location.
+        -  Task:  Access to the Google Maps API and localization of the user's location.
             -  Ticket 1:  By accessing Google Maps' API, it searches for restaurants where specific types of food are located
 after obtaining the user's geolocation information.
             -  Ticket 2:  To display a sufficient number of restaurants as well as some useful information for the user
