@@ -29,17 +29,17 @@ reference and data analysis.
         -  Functional requirement:
             -  Previous searches and their results will be stored locally
             -  Priority will be given to restaurants that have eaten at before
-    -  Project Management
-        -  Theme:  Delight the user by showing them appropriate recipes or restaurants.
-        -  Epic:   Interactive Conversations
-        -  User story 1:  As a user, I want to ask specific dietary preference questions to the system for relevant
+-  Project Management
+    -  Theme:  Delight the user by showing them appropriate recipes or restaurants.
+    -  Epic:   Interactive Conversations
+    -  User story 1:  As a user, I want to ask specific dietary preference questions to the system for relevant
 suggestions.
-            -  Task:  Integrate ChatGPT API to support real-time conversations.
-                  -  Ticket 1:  Implement ChatGPT API integration to enable real-time interactions.
-                  -  Ticket 2:  Design a user-friendly frontend interface allowing users to interact with the system
-        -  User story 2:  Find restaurants that have this food nearby by selecting a specific food variety.
-            -  Task:  Access to the Google Maps API and localization of the user's location.
-                  -  Ticket 1:  By accessing Google Maps' API, it searches for restaurants where specific types of food are located
+        -  Task:  Integrate ChatGPT API to support real-time conversations.
+            -  Ticket 1:  Implement ChatGPT API integration to enable real-time interactions.
+            -  Ticket 2:  Design a user-friendly frontend interface allowing users to interact with the system
+    -  User story 2:  Find restaurants that have this food nearby by selecting a specific food variety.
+          -  Task:  Access to the Google Maps API and localization of the user's location.
+            -  Ticket 1:  By accessing Google Maps' API, it searches for restaurants where specific types of food are located
 after obtaining the user's geolocation information.
-                  -  Ticket 2:  To display a sufficient number of restaurants as well as some useful information for the user
+            -  Ticket 2:  To display a sufficient number of restaurants as well as some useful information for the user
 (distance, price per person, restaurant ratings)
