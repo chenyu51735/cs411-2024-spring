@@ -1,4 +1,4 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    const welcomeMessage = 'Welcome to my project!';
+    const welcomeMessage = 'Welcome to food kingdom!';
     alert(welcomeMessage);
 });
