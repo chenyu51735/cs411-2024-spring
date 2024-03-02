@@ -19,3 +19,7 @@ main {
 h1, h2 {
     color: #333;
 }
+#map {
+    height: 400px;
+    width: 100%;
+}
