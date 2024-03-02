@@ -3,22 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS 411 Project</title>
-    <link rel="stylesheet" href="style.css"> <!-- Linking CSS file -->
+    <title>Recipe Discovery</title>
+    <link rel="stylesheet" href="style.css"> <!-- If you have CSS -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGkDFRGKLkyK_V2BIqTsrp_BiD-8Eo1-8&callback=initMap" async defer></script> <!-- Google Maps API -->
 </head>
 <body>
     <header>
-        <h1>Foood</h1>
+        <h1>Discover Recipes & Nearby Restaurants</h1>
     </header>
-    <main>
-        <section>
-            <h2>Food</h2>
-            <p>This is a paragraph in the section.</p>
-        </section>
-    </main>
-    <footer>
-        <p>Copyright Yu Chen & Ziliang Wang & Yijia Li & Yue Bao</p>
-    </footer>
-    <script src="script.js"></script> <!-- Linking JavaScript file -->
+
+    <section id="recipe-search">
+        <h2>Find a Recipe</h2>
+        <input type="text" id="recipe-query" placeholder="Search for recipes...">
+        <button onclick="searchRecipes()">Search</button>
+    </section>
+
+    <section id="recipe-results">
+        <!-- Results from the recipe API will be displayed here -->
+    </section>
+
+    <section id="nutritional-info">
+        <!-- Nutritional information will be displayed here upon selecting a recipe -->
+    </section>
+
+    <section id="map">
+        <h2>Nearby Restaurants</h2>
+        <div id="google-map" style="height: 400px; width: 100%;">
+            <!-- Google Maps will be rendered here -->
+        </div>
+    </section>
+
+    <script src="app.js"></script> <!-- Your JavaScript code -->
 </body>
 </html>
