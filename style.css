@@ -1,19 +1,22 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
+    font-family: sans-serif;
     padding: 0;
     background-color: #f4f4f4;
 }
+body > *:not(header):not(footer) {
+    margin-left: 50px;
+    margin-right: 50px;
+}
 
 header, footer {
-    background-color: #333;
+    background-color: #76caf4;
     color: white;
     text-align: center;
     padding: 1em 0;
 }
 
 main {
-    padding: 20px;
+    padding: 0px;
 }
 
 h1, h2 {
