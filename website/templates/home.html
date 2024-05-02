@@ -1,11 +1,12 @@
-{% extends "base.html" %}
 {% block content %}
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGkDFRGKLkyK_V2BIqTsrp_BiD-8Eo1-8&callback=initMap" async defer></script>
     <title>Food Link - CS 411 Project</title>
+
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -26,6 +27,91 @@
 
     <!-- Main Container -->
     <div class="container mt-4">
+     
+
+    <!-- Input and check box -->
+    <section id="recipe-search">
+        <h2 class="text-info">Find a Recipe</h2>
+
+        <div class="container">
+        <div class="row g-3">
+        <div class="col-md-6">
+            <div class="input-group mb-3 text-info">
+            <!-- input food description -->
+            <form onsubmit="fetchRecipes(event)">
+                <div class="input-group-append">
+                    <input type="text" name="q" placeholder="Search for recipes..." required="required" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" oninput="searchPlaces(this.value)">
+                    <button class="btn btn-outline-info" type="submit">Search</button>
+                </div>
+            </form>
+        </div></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+        <div class="d-flex justify-content-center align-items-center h-50">
+            <!-- input city or zipcode -->
+            <input type="text" id="zipcode" class="form-control" placeholder="Enter city or zipcode" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-outline-info" type="button" id="search-restaurant-button" onclick="searchRestaurant()">Search</button>
+        </div>
+
+            <!-- check box -->
+        <div class="d-flex align-items-center h-50">
+            <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="check1">
+            <label class="form-check-label" for="gridCheck">
+                Food Pantries
+            </label>
+            </div>
+            <div class="px-3"></div>
+            <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="check2">
+            <label class="form-check-label" for="gridCheck">
+                Community Meal Program
+            </label>
+        </div></div>
+        </div>
+    </section>
+    <div class="mb-4"></div>
+
+
+    <div class="container">
+    <div class="row">
+    <div class="col-md-6">
+    <section id="nutritional-info">
+        <!-- Nutritional information will be displayed here upon selecting a recipe -->
+        <h2 class="text-info">Nutritional Information</h2>
+        <div class="border p-3 bg-light text-info">
+            <p id="recipe"> Tell us some discriptions to get respond. </p>
+        </div>
+    </section></div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-5">
+    <section id="recipe-results">
+        <!-- Results from the recipe API will be displayed here -->
+        <!-- chatgpt respond -->
+        <h2 class="text-info">Recipe Suggestions</h2>
+        <div class="border p-3 bg-light text-info">
+            <p id="chatgpt">Tell us some discriptions to get respond. </p>
+        </div> 
+    </section></div></div>
+    <div class="mb-4"></div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </div>
+
+
+    <section id="map">
+        <h2 class="text-info">Nearby Restaurants</h2>
+        <div id="google-map" style="height: 400px; width: 98%;">
+            <!-- Google Maps will be rendered here -->
+        </div>
+        
+    </section>
+    <div class="mb-5"></div>
+
+
     </div>
 
     <!-- Footer -->
@@ -35,10 +121,116 @@
         </div>
     </footer>
 
+    
+    <script>
+    let map;
+    let service;
+    let infowindow;
+    let userLocation;
+    let markers = [];
+
+    function initMap() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map = new google.maps.Map(document.getElementById('google-map'), {
+                    center: userLocation,
+                    zoom: 12
+                });
+                infowindow = new google.maps.InfoWindow();
+            }, function() {
+                handleLocationError(true, infowindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infowindow, map.getCenter());
+        }
+    }
+
+    function searchPlaces(query) {
+        const request = {
+            location: userLocation || map.getCenter(),
+            radius: '5000',
+            type: ['restaurant'],
+            keyword: query
+        };
+
+        service = new google.maps.places.PlacesService(map);
+        service.textSearch(request, callback);
+    }
+
+    function callback(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            clearMarkers();  // Clear existing markers before adding new ones
+            results.forEach(createMarker);
+        }
+    }
+
+    function createMarker(place) {
+        if (!place.geometry || !place.geometry.location) return;
+
+        const marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+        });
+
+        google.maps.event.addListener(marker, 'click', () => {
+            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+                'Place ID: ' + place.place_id + '<br>' +
+                place.formatted_address + '</div>');
+            infowindow.open(map, marker);
+        });
+        markers.push(marker);  // Add the marker to the array of markers
+    }
+
+    function clearMarkers() {
+        // Clear all markers from the map
+        for (let marker of markers) {
+            marker.setMap(null);
+        }
+        markers = [];
+    }
+        </script>
+        <script>
+            async function fetchRecipes(event) {
+                event.preventDefault();
+                const query = document.querySelector('[name="q"]').value;
+                const url = `https://api.spoonacular.com/recipes/complexSearch?query=${query}&addRecipeNutrition=true&apiKey=90a3e0792e3147c296c05171ed7aaa47`;
+                const response = await fetch(url);
+                const data = await response.json();
+                displayRecipes(data.results);
+                displayNutritionalInfo(data.results[0]);
+            }
+            async function showRecipeDetails(recipeId) {
+                const recipeUrl = `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=90a3e0792e3147c296c05171ed7aaa47`;
+                const response = await fetch(recipeUrl);
+                const recipeDetails = await response.json();
+
+                displayIngredients(recipeDetails);
+                searchPlaces(recipeDetails.title); // This assumes that the restaurant search is related to the recipe title
+            }
+            function displayRecipes(recipes) {
+                const container = document.getElementById('chatgpt');
+                container.innerHTML = recipes.map(recipe => 
+                `<div onclick="showRecipeDetails(${recipe.id})" style="cursor: pointer;">${recipe.title}</div>`
+                ).join('');
+            }
+    
+            function displayIngredients(recipe) {
+                const info = document.getElementById('recipe');
+                const ingredients = recipe.extendedIngredients.map(ing => ing.original).join('<br>');
+                info.innerHTML = `<strong>Ingredients:</strong><br>${ingredients}`;
+            }
+
+        </script>
     <!-- JavaScript -->
+    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGkDFRGKLkyK_V2BIqTsrp_BiD-8Eo1-8&callback=initMap" async defer></script>
+
 </body>
 {% endblock %}
