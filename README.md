@@ -57,4 +57,4 @@ Run
 main.py
 ```
 ## To view the website
-Go to http://127.0.0.1:5000
+Go to http://localhost:5000
