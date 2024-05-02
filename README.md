@@ -49,6 +49,7 @@ git clone https://github.com/chenyu51735/cs411-2024-spring.git
 pip install flask
 pip install Flask-SQLAlchemy
 pip install flask-login
+pip install Authlib
 ```
 ## Running the file
 Run 
