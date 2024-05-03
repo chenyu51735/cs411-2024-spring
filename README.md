@@ -57,4 +57,7 @@ Run
 main.py
 ```
 ## To view the website
+### For Windows
 Go to http://localhost:5000
+### For MacOS
+Go to http://127.0.0.1:5000
